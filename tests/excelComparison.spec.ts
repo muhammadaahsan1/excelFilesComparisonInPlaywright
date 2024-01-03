@@ -1,11 +1,14 @@
+//importing fixtures from playwright/test
+
 import { test, expect } from "@playwright/test";
+//Import XLSX after installing npm install xlsx library
 import XLSX from "xlsx";
 
 
 
 test("Download & Compare excel file data", async ({ page }, testInfo) => {
 
-    // read the original data and store in a json format
+    // read the original data and store in a json format (Excel table data can be represented as an array of objects in the form of JSON. Each object represents a row in the table.)
     const org_path = "original.xlsx";
     const orginalExcelData = readExcel(org_path);
 
@@ -16,7 +19,9 @@ test("Download & Compare excel file data", async ({ page }, testInfo) => {
         await page.locator("//a[contains(text(),'Download Excel')]").click()
     ]);
     // get the excel file name
-    const path = download.suggestedFilename();
+      
+
+    const path = download.suggestedFilename();    // Returns suggested filename for this download. It is typically computed by the browser.
     await download.saveAs(path);
     // attach the downloaded file to the report
     await testInfo.attach('downloaded', { path: path });
